@@ -38,3 +38,8 @@ export interface UserListProps {
 export interface UserScoresListProps {
     userScoreList: UserScoreProps[];
 }
+
+export interface FormValues {
+    name: string;
+    score?: number;
+};
