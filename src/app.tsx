@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { Link } from '@chakra-ui/react'
 import {
   Container,
@@ -11,21 +11,30 @@ import {
 } from '@northlight/ui'
 import { palette } from '@northlight/tokens'
 import { ExcelDropzone, ExcelRow } from './excel-dropzone.jsx'
+import UserList from "./_components/UserList.js";
+import { convertExcelToUserProps } from './_actions/userListActions.js'
+import { UserScoreProps } from './types/types.js'
+import UserScoresList from './_components/UserScoresList.js'
+import AddUserForm from './_components/AddUserForm.js'
 
 interface ExternalLinkProps {
   href: string,
   children: ReactNode,
 }
 
-const ExternalLink = ({ href, children }: ExternalLinkProps) => <Link href={href} isExternal sx={ {color: palette.blue['500'], textDecoration: 'underline'} }>{ children }</Link>
+const ExternalLink = ({ href, children }: ExternalLinkProps) =>
+<Link href={href} isExternal sx={ {color: palette.blue['500'], textDecoration: 'underline'} }>{ children }</Link>
 
 export default function App () {
+  const [userList, setUserList] = useState<UserScoreProps[]>([]);
+  const [userScoreList, setUserScoreList] = useState<UserScoreProps[]>([]);
+
   function handleSheetData (data: ExcelRow[]) {
-    // replace this log with actual handling of the data
-    console.log(data)
+    convertExcelToUserProps(data, setUserList);
   }
 
   return (
+    <>
     <Container maxW="6xl" padding="4">
       <H1 marginBottom="4" >Mediatool exercise</H1>
       <HStack spacing={10} align="flex-start">
@@ -65,5 +74,13 @@ export default function App () {
         </VStack>
       </HStack>
     </Container>
+    <Container maxW="6xl" padding="4" maxH="500px" height="100%">
+      <HStack gap={100} alignItems="flex-start" justifyContent='center'>
+        <AddUserForm setUserList={setUserList} setUserScoreList={setUserScoreList}/>
+        <UserList userList={userList} setUserList={setUserList} setUserScoreList={setUserScoreList}/>
+        <UserScoresList userScoreList={userScoreList}/>
+      </HStack>
+    </Container>
+    </>
   ) 
 }
