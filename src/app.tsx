@@ -12,10 +12,10 @@ import {
 import { palette } from '@northlight/tokens'
 import { ExcelDropzone, ExcelRow } from './excel-dropzone.jsx'
 import UserList from "./_components/UserList.js";
-import { convertExcelToUserProps } from './_actions/userListActions.js'
 import { UserObjectProps } from './types/types.js'
 import UserScoresList from './_components/UserScoresList.js'
 import AddUserForm from './_components/AddUserForm.js'
+import { convertExcelToUserProps } from './_actions/userListActions.js'
 
 interface ExternalLinkProps {
   href: string,
