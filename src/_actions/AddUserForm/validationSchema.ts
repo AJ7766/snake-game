@@ -1,4 +1,27 @@
-export const nameValidation = async (name: string) =>{
+import { FormValues } from "../../types/types";
+
+export const validation = async (values: FormValues) => {
+    const errors: any = {}
+    
+    try{
+        const nameError = await nameValidation(values.name);
+        if(nameError){
+            errors.name = nameError.message;
+        }
+
+        const scoreError = await scoreValidation(values.score);
+        if(scoreError){
+            errors.score = scoreError.message;
+        }
+
+        return errors;
+
+    } catch(error:any) {
+        throw new Error(error);
+    }
+};
+
+const nameValidation = async (name: string) =>{
     let errorMessage = {};
 
     if (!name) {
@@ -11,7 +34,7 @@ export const nameValidation = async (name: string) =>{
     return null;
 }
 
-export const scoreValidation = async (score?: number) =>{
+const scoreValidation = async (score?: number) =>{
     let errorMessage = {};
 
     if (score === undefined || score < 0) {
