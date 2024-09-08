@@ -1,9 +1,9 @@
-import { UserScoreProps } from "../types/types";
+import { UserObjectProps } from "../types/types";
 
 export const handleScores = (
-    userList: UserScoreProps[], 
+    userList: UserObjectProps[], 
     name: string, 
-    setUserScoreList: React.Dispatch<React.SetStateAction<UserScoreProps[]>>
+    setUserScoreList: React.Dispatch<React.SetStateAction<UserObjectProps[]>>
 ) => {
     const user = userList.find(user => user.name === name);
     if (user) {

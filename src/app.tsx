@@ -13,7 +13,7 @@ import { palette } from '@northlight/tokens'
 import { ExcelDropzone, ExcelRow } from './excel-dropzone.jsx'
 import UserList from "./_components/UserList.js";
 import { convertExcelToUserProps } from './_actions/userListActions.js'
-import { UserScoreProps } from './types/types.js'
+import { UserObjectProps } from './types/types.js'
 import UserScoresList from './_components/UserScoresList.js'
 import AddUserForm from './_components/AddUserForm.js'
 
@@ -26,8 +26,8 @@ const ExternalLink = ({ href, children }: ExternalLinkProps) =>
 <Link href={href} isExternal sx={ {color: palette.blue['500'], textDecoration: 'underline'} }>{ children }</Link>
 
 export default function App () {
-  const [userList, setUserList] = useState<UserScoreProps[]>([]);
-  const [userScoreList, setUserScoreList] = useState<UserScoreProps[]>([]);
+  const [userList, setUserList] = useState<UserObjectProps[]>([]);
+  const [userScoreList, setUserScoreList] = useState<UserObjectProps[]>([]);
 
   function handleSheetData (data: ExcelRow[]) {
     convertExcelToUserProps(data, setUserList);

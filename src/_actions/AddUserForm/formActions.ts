@@ -1,13 +1,13 @@
 import { validation } from "../../_components/AddUserForm";
-import { FormValues, UserScoreProps } from "../../types/types";
+import { FormValues, UserObjectProps } from "../../types/types";
 import { formatName } from "../../utils/nameFormatter";
 import { updateUserList } from "../userListActions";
 
 export const handleSubmit = async (
     values: FormValues,
     methods: any,
-    setUserList: React.Dispatch<React.SetStateAction<UserScoreProps[]>>,
-    setUserScoreList: React.Dispatch<React.SetStateAction<UserScoreProps[]>>,
+    setUserList: React.Dispatch<React.SetStateAction<UserObjectProps[]>>,
+    setUserScoreList: React.Dispatch<React.SetStateAction<UserObjectProps[]>>,
     setScore: React.Dispatch<React.SetStateAction<number | undefined>>,
 ) => {
     const errors = await validation(values);
@@ -24,11 +24,11 @@ export const handleSubmit = async (
         }
     }else{
         const formattedName = formatName(values.name);
-        const updatedValues: UserScoreProps = {
+        const updatedValues: UserObjectProps[] = [{
             name: formattedName,
             scores: values.score !== undefined ? [values.score] : []
-        };
-        updateUserList(setUserList, [updatedValues]);
+        }];
+        updateUserList(updatedValues, setUserList);
         setUserScoreList([])
 
         setScore(undefined);
