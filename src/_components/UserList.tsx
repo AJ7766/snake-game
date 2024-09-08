@@ -5,10 +5,10 @@ import { Container, HStack, ListItem, UnorderedList, VStack } from '@chakra-ui/r
 import { H1 } from '@northlight/ui';
 import {handleScores} from '../_actions/scoreListActions';
 import { getInitialData } from '../_actions/userListActions';
-import { UserListProps, InitialDataProps } from '../types/types';
+import { UserListPropsWithSetStatesProps, InitialDataProps } from '../types/types';
 
 
-export default function UserList({ userList, setUserList, setUserScoreList }: UserListProps){
+export default function UserList({ userList, setUserList, setUserScoreList }: UserListPropsWithSetStatesProps){
 
     useEffect(() => {
         const initialDataProps: InitialDataProps = {

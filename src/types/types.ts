@@ -24,14 +24,14 @@ export interface AddUserProps {
     setUserScoreList:React.Dispatch<React.SetStateAction<UserObjectProps[]>>;
 }
 
-export interface UserListProps {
+export interface UserListPropsWithSetStatesProps {
     userList: UserObjectProps[];
     setUserList: React.Dispatch<React.SetStateAction<UserObjectProps[]>>;
     setUserScoreList:React.Dispatch<React.SetStateAction<UserObjectProps[]>>;
 }
 
-export interface UserScoresListProps {
-    userScoreList: UserObjectProps[];
+export interface UserListProps {
+    userList: UserObjectProps[];
 }
 
 export interface FormValues {

@@ -21,7 +21,7 @@ export const getInitialData = ({users, scores, setUserList}: InitialDataProps
     setNewUserList(updatedUserList, setUserList);
 }
 
-export const convertExcelToUserProps = (
+export const convertExcelToUserObjects = (
     excelUsers: ExcelRow[],
     setUserList: React.Dispatch<React.SetStateAction<UserObjectProps[]>>
 ) => {

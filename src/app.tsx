@@ -15,7 +15,7 @@ import UserList from "./_components/UserList.js";
 import { UserObjectProps } from './types/types.js'
 import UserScoresList from './_components/UserScoresList.js'
 import AddUserForm from './_components/AddUserForm.js'
-import { convertExcelToUserProps } from './_actions/userListActions.js'
+import { convertExcelToUserObjects } from './_actions/userListActions.js'
 
 interface ExternalLinkProps {
   href: string,
@@ -30,7 +30,7 @@ export default function App () {
   const [userScoreList, setUserScoreList] = useState<UserObjectProps[]>([]);
 
   function handleSheetData (data: ExcelRow[]) {
-    convertExcelToUserProps(data, setUserList);
+    convertExcelToUserObjects(data, setUserList);
   }
 
   return (
@@ -78,7 +78,7 @@ export default function App () {
       <HStack gap={100} alignItems="flex-start" justifyContent='center'>
         <AddUserForm setUserList={setUserList} setUserScoreList={setUserScoreList}/>
         <UserList userList={userList} setUserList={setUserList} setUserScoreList={setUserScoreList}/>
-        <UserScoresList userScoreList={userScoreList}/>
+        <UserScoresList userList={userScoreList}/>
       </HStack>
     </Container>
     </>
