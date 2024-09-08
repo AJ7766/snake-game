@@ -10,7 +10,7 @@ interface UserContextType {
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export default function UserProvder({children}: {children:ReactNode}){
   const [userList, setUserList] = useState<UserObjectProps[]>([]);
   const [userScoreList, setUserScoreList] = useState<UserObjectProps[]>([]);
 
@@ -19,7 +19,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       {children}
     </UserContext.Provider>
   );
-};
+}
 
 export const useUserContext = () => {
   const context = useContext(UserContext);
