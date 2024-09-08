@@ -3,8 +3,8 @@ import { UserObjectProps } from '../src/types/types';
 
 interface UserContextType {
   userList: UserObjectProps[];
-  setUserList: React.Dispatch<React.SetStateAction<UserObjectProps[]>>;
   userScoreList: UserObjectProps[];
+  setUserList: React.Dispatch<React.SetStateAction<UserObjectProps[]>>;
   setUserScoreList: React.Dispatch<React.SetStateAction<UserObjectProps[]>>;
 }
 
@@ -15,7 +15,7 @@ export default function UserProvder({children}: {children:ReactNode}){
   const [userScoreList, setUserScoreList] = useState<UserObjectProps[]>([]);
 
   return (
-    <UserContext.Provider value={{ userList, setUserList, userScoreList, setUserScoreList }}>
+    <UserContext.Provider value={{ userList, userScoreList, setUserList, setUserScoreList }}>
       {children}
     </UserContext.Provider>
   );

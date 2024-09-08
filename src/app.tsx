@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode } from 'react'
 import { Link } from '@chakra-ui/react'
 import {
   Container,
@@ -12,7 +12,6 @@ import {
 import { palette } from '@northlight/tokens'
 import { ExcelDropzone, ExcelRow } from './excel-dropzone.jsx'
 import UserList from "./_components/UserList.js";
-import { UserObjectProps } from './types/types.js'
 import UserScoresList from './_components/UserScoresList.js'
 import AddUserForm from './_components/AddUserForm.js'
 import { convertExcelToUserObjects } from './_actions/userListActions.js'

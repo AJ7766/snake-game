@@ -1,6 +1,6 @@
 import { Button, Form, HStack, NumberInputField, TextField, VStack } from "@northlight/ui";
 import React, { useState } from "react";
-import { FormValues, UserObjectProps } from "../types/types";
+import { FormValueProps, UserObjectProps } from "../types/types";
 import { formatName } from "../utils/nameFormatter";
 import { updateUserList } from "../_actions/userListActions";
 import { useUserContext } from "../../context/UserContext";
@@ -16,7 +16,7 @@ export default function AddUserForm() {
     };
 
     const handleSubmit = async (
-        values: FormValues,
+        values: FormValueProps,
         methods: any,
     ) => {
         const errors = await validation(values);

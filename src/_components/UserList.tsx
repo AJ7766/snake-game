@@ -7,7 +7,6 @@ import { getInitialData } from '../_actions/userListActions';
 import { InitialDataProps, UserObjectProps } from '../types/types';
 import { useUserContext } from '../../context/UserContext';
 
-
 export default function UserList(){
     const {userList, setUserList, setUserScoreList} = useUserContext();
 

@@ -1,6 +1,6 @@
-import { FormValues } from "../../types/types";
+import { FormValueProps } from "../../types/types";
 
-export const validation = async (values: FormValues) => {
+export const validation = async (values: FormValueProps) => {
     const errors: any = {}
     
     try{

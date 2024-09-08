@@ -34,7 +34,7 @@ export interface UserListProps {
     userList: UserObjectProps[];
 }
 
-export interface FormValues {
+export interface FormValueProps {
     name: string;
     score?: number;
 };
