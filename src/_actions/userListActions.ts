@@ -1,14 +1,14 @@
+import { useUserContext } from "../../context/UserContext";
 import { ExcelRow } from "../excel-dropzone";
 import { InitialDataProps, UserObjectProps } from "../types/types";
 
-export const getInitialData = ({users, scores, setUserList}: InitialDataProps
-) => {
+const getInitialData = ({ users, scores }: InitialDataProps): Map<string, UserObjectProps> => {
     const initialUserList = new Map<string, UserObjectProps>();
-
+    //vi skapar en map och sedan lägger in alla users i den.
     users.forEach(user => {
         initialUserList.set(user.name, { name: user.name, scores: [] });
     });
-
+    //för varje user där user_id är lika med score_id så hämtar vi userobjektet med hjälp av namnet. ifall användaren finns så lägger vi poängen hos användaren scores[]
     scores.forEach(score => {
         const user = users.find(user_ => user_._id === score.userId);
         if (user) {
@@ -16,83 +16,105 @@ export const getInitialData = ({users, scores, setUserList}: InitialDataProps
             existingUser && existingUser.scores.push(score.score);
         }
     });
-    
-    const updatedUserList:UserObjectProps[] = Array.from(initialUserList.values());
-    setNewUserList(updatedUserList, setUserList);
-}
+    //returnerar en osorterad lista på datan vi importerade
+    return initialUserList;
+};
 
-export const convertExcelToUserObjects = (
-    excelUsers: ExcelRow[],
-    setUserList: React.Dispatch<React.SetStateAction<UserObjectProps[]>>
-) => {
-    const convertedExcelList: UserObjectProps[] = [];
+const convertExcelToUserObjects = (excelUsers: ExcelRow[]): Map<string, UserObjectProps> => {
+    const convertedExcelList = new Map<string, UserObjectProps>();
 
-    excelUsers.forEach((user)=> {
+    excelUsers.forEach((user) => {
         const newUser: UserObjectProps = {
             name: user.name,
             scores: [user.score]
         };
-        convertedExcelList.push(newUser);
-    })
-    updateUserList(convertedExcelList, setUserList);
-}
+        convertedExcelList.set(user.name, newUser);
+    });
 
-export const updateUserList = (
-    newUsers: UserObjectProps[],
-    setUserList: React.Dispatch<React.SetStateAction<UserObjectProps[]>>,
-) => {
+    return convertedExcelList;
+};
+
+const updateUserList = (
+    prevUserList: UserObjectProps[],
+    newUserList: Map<string, UserObjectProps>
+): UserObjectProps[] => {
     const currentUserList = new Map<string, UserObjectProps>();
-    
-    newUsers.forEach((newUser) => {
+
+    prevUserList.forEach(user => {
+        currentUserList.set(user.name, { ...user });
+    });
+
+    newUserList.forEach((newUser) => {
         if (currentUserList.has(newUser.name)) {
             const existingUser = currentUserList.get(newUser.name);
-            existingUser && existingUser.scores.push(...newUser.scores)
-        }else {
-            currentUserList.set(newUser.name, { name: newUser.name, scores: [...newUser.scores] });
+            if (existingUser) {
+                existingUser.scores = Array.from(new Set([...existingUser.scores, ...newUser.scores]));
+            }
+        } else {
+            currentUserList.set(newUser.name, { ...newUser });
         }
     });
     const updatedUserList: UserObjectProps[] = Array.from(currentUserList.values());
 
-    setNewUserList(updatedUserList, setUserList);
-};
-
-const setNewUserList = (
-    newUserList: UserObjectProps[],
-    setUserList: React.Dispatch<React.SetStateAction<UserObjectProps[]>>
-) => {
-
-    setUserList(prevUserList => {
-    const currentUserList = new Map<string, UserObjectProps>();
-
-        prevUserList.forEach(user => {
-            currentUserList.set(user.name, { ...user });
-        });
-    
-        newUserList.forEach(newUser => {
-            if (currentUserList.has(newUser.name)) {
-                const existingUser = currentUserList.get(newUser.name);
-                if (existingUser) {
-                    currentUserList.set(newUser.name, {
-                        ...existingUser,
-                        scores: Array.from(new Set([...existingUser.scores, ...newUser.scores]))
-                    })
-                }
-            } else {
-                currentUserList.set(newUser.name, { ...newUser });
-            }
-        });
-    
-        const mergedList = Array.from(currentUserList.values());
-
-        mergedList.forEach(user => {
-            user.scores.sort((a, b) => b - a);
-        });
-
-        mergedList.sort((a, b) => {
-            const highestScoreA = a.scores[0] || 0;
-            const highestScoreB = b.scores[0] || 0;
-            return highestScoreB - highestScoreA;
-        });
-        return mergedList;
+    updatedUserList.forEach(user => {
+        user.scores.sort((a, b) => b - a);
     });
+
+    updatedUserList.sort((a, b) => {
+        const highestScoreA = a.scores[0] || 0;
+        const highestScoreB = b.scores[0] || 0;
+        return highestScoreB - highestScoreA;
+    });
+    return updatedUserList;
 };
+
+const mergeAndSortUserList = (newUserList: UserObjectProps[]): UserObjectProps[] => {
+    const userMap = new Map<string, UserObjectProps>();
+    
+    newUserList.forEach(newUser => {
+        if (userMap.has(newUser.name)) {
+            const existingUser = userMap.get(newUser.name);
+            if (existingUser) {
+                userMap.set(newUser.name, {
+                    ...existingUser,
+                    scores: Array.from(new Set([...existingUser.scores, ...newUser.scores])),
+                });
+            }
+        } else {
+            userMap.set(newUser.name, { ...newUser });
+        }
+    });
+    const mergedList = Array.from(userMap.values());
+
+    mergedList.forEach(user => {
+        user.scores.sort((a, b) => b - a);
+    });
+
+    mergedList.sort((a, b) => {
+        const highestScoreA = a.scores[0] || 0;
+        const highestScoreB = b.scores[0] || 0;
+        return highestScoreB - highestScoreA;
+    });
+
+    return mergedList;
+};
+
+export function useUserListActions() {
+    const { setUserList } = useUserContext();
+
+    const handleInitialData = (data: InitialDataProps) => {
+        const newUserList = getInitialData(data);
+        setUserList(prevList => updateUserList(prevList, newUserList));
+    };
+
+    const handleExcelConversion = (excelUsers: ExcelRow[]) => {
+        const newUserList = convertExcelToUserObjects(excelUsers);
+        setUserList(prevList => updateUserList(prevList, newUserList));
+    };
+
+    const handleUserListUpdate = (newUsers: UserObjectProps[]) => {
+        setUserList(prevList => mergeAndSortUserList([...prevList, ...newUsers]));
+    };
+
+    return { handleInitialData, handleExcelConversion, handleUserListUpdate };
+}

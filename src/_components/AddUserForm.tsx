@@ -1,25 +1,25 @@
-import { Button, Form, HStack, NumberInputField, TextField, VStack } from "@northlight/ui";
-import React, { useState } from "react";
+import { Button, Form, FormattedNumberInputField, HStack, TextField, VStack } from "@northlight/ui";
+import React from "react";
 import { FormValueProps, UserObjectProps } from "../types/types";
 import { formatName } from "../utils/nameFormatter";
-import { updateUserList } from "../_actions/userListActions";
 import { useUserContext } from "../../context/UserContext";
 import { validation } from "../_actions/AddUserForm/validationSchema";
+import { useUserListActions } from "../_actions/userListActions";
 
 export default function AddUserForm() {
-    const [score, setScore] = useState<number | undefined>(undefined);
-    const {setUserList, setUserScoreList} = useUserContext();
-    const handleScoreChange = (value: string | number) => {
-        const parsedValue = Number(value);
-
-        setScore(value === '' || !isNaN(parsedValue) ? parsedValue : undefined);
-    };
+    const { setUserScoreList } = useUserContext();
+    const { handleUserListUpdate } = useUserListActions();
 
     const handleSubmit = async (
         values: FormValueProps,
         methods: any,
     ) => {
-        const errors = await validation(values);
+        const parsedScore = values.score !== undefined ? parseFloat(values.score as string) : 0;
+        const parsedScoreValues = {
+            name: values.name,
+            score: parsedScore
+        }
+        const errors = await validation(parsedScoreValues);
     
         if (Object.keys(errors).length) {
             try{
@@ -35,26 +35,24 @@ export default function AddUserForm() {
             const formattedName = formatName(values.name);
             const updatedValues: UserObjectProps[] = [{
                 name: formattedName,
-                scores: values.score !== undefined ? [values.score] : []
+                scores: !isNaN(parsedScore) ? [parsedScore] : []
             }];
-            updateUserList(updatedValues, setUserList);
+            handleUserListUpdate(updatedValues);
             setUserScoreList([])
-    
-            setScore(undefined);
-            methods.reset({
-                name: '',
-                score: undefined
-            });
+            methods.reset();
         }
     };
 
     return (
         <HStack width="200px">
         <Form
-            initialValues={{ name: '', score: undefined }}
+            initialValues={{ name: '', score: ''}}
             onSubmit={(values, methods) => handleSubmit(values, methods)}
             formSettings={{
                 mode: 'onSubmit',
+                resetOptions: {
+                    keepDirty: true,
+                },
             }}
             validate={validation}
         >
@@ -67,13 +65,11 @@ export default function AddUserForm() {
             </VStack>
 
             <VStack mt={3}>
-            <NumberInputField
+            <TextField
                 name="score"
                 label="Score"
+                type="number"
                 isRequired={true}
-                precision={0}
-                value={score ?? ''}
-                onChange={(value: string | number) => handleScoreChange(value)}
                 />
             </VStack>
 

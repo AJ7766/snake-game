@@ -22,23 +22,26 @@ export const validation = async (values: FormValueProps) => {
 };
 
 const nameValidation = async (name: string) =>{
-    let errorMessage = {};
 
     if (!name) {
-        return errorMessage = {message: 'Name is required'} ;
+        return { message: 'Name is required' } ;
     }
 
     if(!/^[A-Za-z\s]+$/.test(name)) {
-        return errorMessage = { message: 'Name should not contain numbers or symbols' };
+        return { message: 'Name should not contain numbers or symbols' };
     }
     return null;
 }
 
-const scoreValidation = async (score?: number) =>{
-    let errorMessage = {};
+const scoreValidation = async (score: number | string) =>{
+    
+    if (typeof score !== 'number'){
+        return { message: 'Score must be a number'}
+    }
 
     if (score === undefined || score < 0) {
-       return errorMessage = { message: 'Score must be a positive number' };
+       return { message: 'Score must be a positive number' }
     }
+
     return null;
 }

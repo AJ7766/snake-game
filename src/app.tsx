@@ -14,8 +14,7 @@ import { ExcelDropzone, ExcelRow } from './excel-dropzone.jsx'
 import UserList from "./_components/UserList.js";
 import UserScoresList from './_components/UserScoresList.js'
 import AddUserForm from './_components/AddUserForm.js'
-import { convertExcelToUserObjects } from './_actions/userListActions.js'
-import { useUserContext } from '../context/UserContext.js'
+import {useUserListActions} from './_actions/userListActions.js'
 
 interface ExternalLinkProps {
   href: string,
@@ -26,10 +25,10 @@ const ExternalLink = ({ href, children }: ExternalLinkProps) =>
 <Link href={href} isExternal sx={ {color: palette.blue['500'], textDecoration: 'underline'} }>{ children }</Link>
 
 export default function App() {
-  const {setUserList} = useUserContext();
+  const { handleExcelConversion } = useUserListActions();
 
   function handleSheetData (data: ExcelRow[]) {
-    convertExcelToUserObjects(data, setUserList);
+    handleExcelConversion(data);
   }
 
   return (

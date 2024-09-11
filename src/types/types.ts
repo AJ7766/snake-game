@@ -16,7 +16,6 @@ export interface UserObjectProps {
 export interface InitialDataProps {
     users: UserProps[];
     scores: ScoreProps[];
-    setUserList: React.Dispatch<React.SetStateAction<UserObjectProps[]>>;
 }
 
 export interface AddUserProps {
@@ -26,8 +25,6 @@ export interface AddUserProps {
 
 export interface UserListPropsWithSetStatesProps {
     userList: UserObjectProps[];
-    setUserList: React.Dispatch<React.SetStateAction<UserObjectProps[]>>;
-    setUserScoreList:React.Dispatch<React.SetStateAction<UserObjectProps[]>>;
 }
 
 export interface UserListProps {
@@ -36,5 +33,5 @@ export interface UserListProps {
 
 export interface FormValueProps {
     name: string;
-    score?: number;
+    score: string | number;
 };
