@@ -4,11 +4,11 @@ import { InitialDataProps, UserObjectProps } from "../types/types";
 
 const getInitialData = ({ users, scores }: InitialDataProps): Map<string, UserObjectProps> => {
     const initialUserList = new Map<string, UserObjectProps>();
-    //vi skapar en map och sedan lägger in alla users i den.
+
     users.forEach(user => {
         initialUserList.set(user.name, { name: user.name, scores: [] });
     });
-    //för varje user där user_id är lika med score_id så hämtar vi userobjektet med hjälp av namnet. ifall användaren finns så lägger vi poängen hos användaren scores[]
+
     scores.forEach(score => {
         const user = users.find(user_ => user_._id === score.userId);
         if (user) {
@@ -16,7 +16,7 @@ const getInitialData = ({ users, scores }: InitialDataProps): Map<string, UserOb
             existingUser && existingUser.scores.push(score.score);
         }
     });
-    //returnerar en osorterad lista på datan vi importerade
+    
     return initialUserList;
 };
 
