@@ -36,7 +36,7 @@ export default function AddUserForm() {
       const updatedValues: UserObjectProps[] = [
         {
           name: formattedName,
-          scores: [Number(values.score)],
+          scores: !isNaN(Number(values.score)) ? [Number(values.score)] : [],
         },
       ];
       handleUserListUpdate(updatedValues);
