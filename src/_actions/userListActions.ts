@@ -43,7 +43,7 @@ const convertExcelToUserObjects = (excelUsers: ExcelRow[]): UserObjectProps[] =>
     return convertedExcelList;
 };
 
-const mergeAndUpdateUserList = (mergedList: UserObjectProps[]): UserObjectProps[] => 
+const mergeAndSortUserList = (mergedList: UserObjectProps[]): UserObjectProps[] => 
     {
     const currentUserList = new Map<string, UserObjectProps>();
 
@@ -80,16 +80,16 @@ export function useUserListActions() {
 
     const handleInitialData = (data: InitialDataProps) => {
         const newUserList = getInitialData(data);
-        setUserList(prevList => mergeAndUpdateUserList([...prevList, ...newUserList]));
+        setUserList(prevList => mergeAndSortUserList([...prevList, ...newUserList]));
     };
 
     const handleExcelConversion = (excelUsers: ExcelRow[]) => {
         const newUserList = convertExcelToUserObjects(excelUsers);
-        setUserList(prevList => mergeAndUpdateUserList([...prevList, ...newUserList]));
+        setUserList(prevList => mergeAndSortUserList([...prevList, ...newUserList]));
     };
 
     const handleUserListUpdate = (newUsers: UserObjectProps[]) => {
-        setUserList(prevList => mergeAndUpdateUserList([...prevList, ...newUsers]));
+        setUserList(prevList => mergeAndSortUserList([...prevList, ...newUsers]));
     };
 
     return { handleInitialData, handleExcelConversion, handleUserListUpdate };
