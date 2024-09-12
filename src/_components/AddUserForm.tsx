@@ -21,17 +21,15 @@ export default function AddUserForm() {
   const handleSubmit = async (values: FormValueProps, methods: any) => {
     const errors = await validation(values);
 
-    if (Object.keys(errors).length) {
+    if (errors.size > 0) {
       try {
-        for (const field in errors) {
-          if (errors.hasOwnProperty(field)) {
-            methods.setError(field, { message: errors[field] });
-          }
+        for (const [field, {message}] of errors) {
+          methods.setError(field, { message });
         }
       } catch (error: any) {
         methods.setError("field", { message: error.message });
       }
-    } else {
+    }else {
       const formattedName = formatName(values.name);
       const updatedValues: UserObjectProps[] = [
         {

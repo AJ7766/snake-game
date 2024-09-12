@@ -1,20 +1,20 @@
 import { FormValueProps } from "../../types/types";
 
 export const validation = async (values: FormValueProps) => {
-    const errors: any = {}
+    const errorsMap = new Map<string, { message: string }>()
     
     try{
         const nameError = await nameValidation(values.name);
         if(nameError){
-            errors.name = nameError.message;
+            errorsMap.set('name', { message: nameError.message })
         }
 
         const scoreError = await scoreValidation(values.score);
         if(scoreError){
-            errors.score = scoreError.message;
+            errorsMap.set('score', { message: scoreError.message })
         }
 
-        return errors;
+        return errorsMap;
 
     } catch(error:any) {
         throw new Error(error);
