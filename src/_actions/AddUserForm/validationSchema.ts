@@ -35,11 +35,15 @@ const nameValidation = async (name: string) =>{
 
 const scoreValidation = async (score: number | string) =>{
     
+    if (score === undefined) {
+        return { message: 'Enter a score' }
+     }
+
     if (typeof score !== 'number'){
         return { message: 'Score must be a number'}
     }
 
-    if (score === undefined || score < 0) {
+    if (score < 0) {
        return { message: 'Score must be a positive number' }
     }
 
