@@ -18,11 +18,6 @@ export interface InitialDataProps {
     scores: ScoreProps[];
 }
 
-export interface AddUserProps {
-    setUserList: React.Dispatch<React.SetStateAction<UserObjectProps[]>>;
-    setUserScoreList:React.Dispatch<React.SetStateAction<UserObjectProps[]>>;
-}
-
 export interface UserListPropsWithSetStatesProps {
     userList: UserObjectProps[];
 }
