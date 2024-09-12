@@ -36,7 +36,7 @@ export default function AddUserForm() {
       const updatedValues: UserObjectProps[] = [
         {
           name: formattedName,
-          scores: [Number(values.score)]
+          scores: [Number(values.score)],
         },
       ];
       handleUserListUpdate(updatedValues);
@@ -63,15 +63,14 @@ export default function AddUserForm() {
         </VStack>
 
         <VStack mt={3}>
-        <Field
-          name="score"
-          label="Score"
-          isRequired={true}
-        >
-          {({ value, onChange }) => (
-            <NumberInput value={value} onChange={(e) => onChange(Number(e) || '')} />
-          )}
-        </Field>
+          <Field name="score" label="Score" isRequired={true}>
+            {({ value, onChange }) => (
+              <NumberInput
+                value={value}
+                onChange={(e) => onChange(Number(e) || "")}
+              />
+            )}
+          </Field>
         </VStack>
 
         <Button mt={3} type="submit" variant="success">
