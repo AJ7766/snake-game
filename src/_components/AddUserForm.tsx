@@ -16,7 +16,7 @@ import { useUserListActions } from "../_actions/userListActions";
 
 export default function AddUserForm() {
   const { setUserScoreList } = useUserContext();
-  const { handleUserListUpdate } = useUserListActions();
+  const { handleAddUser } = useUserListActions();
 
   const handleSubmit = async (values: FormValueProps, methods: any) => {
     const errors = await validation(values);
@@ -39,7 +39,7 @@ export default function AddUserForm() {
           scores: !isNaN(Number(values.score)) ? [Number(values.score)] : [],
         },
       ];
-      handleUserListUpdate(updatedValues);
+      handleAddUser(updatedValues);
       setUserScoreList([]);
       methods.reset();
     }

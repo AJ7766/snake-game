@@ -87,9 +87,9 @@ export function useUserListActions() {
         setUserList(prevList => mergeAndSortUserList([...prevList, ...newUserList]));
     };
 
-    const handleUserListUpdate = (newUsers: UserObjectProps[]) => {
-        setUserList(prevList => mergeAndSortUserList([...prevList, ...newUsers]));
+    const handleAddUser = (newUser: UserObjectProps[]) => {
+        setUserList(prevList => mergeAndSortUserList([...prevList, ...newUser]));
     };
 
-    return { handleInitialData, handleExcelConversion, handleUserListUpdate };
+    return { handleInitialData, handleExcelConversion, handleAddUser };
 }
