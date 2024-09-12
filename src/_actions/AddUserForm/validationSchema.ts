@@ -13,7 +13,6 @@ export const validation = async (values: FormValueProps) => {
         if(scoreError){
             errorsMap.set('score', { message: scoreError.message })
         }
-
         return errorsMap;
 
     } catch(error:any) {
@@ -35,8 +34,8 @@ const nameValidation = async (name: string) =>{
 
 const scoreValidation = async (score: number | string) =>{
     
-    if (score === undefined) {
-        return { message: 'Enter a score' }
+    if (!score) {
+        return { message: 'Score is required' }
      }
 
     if (typeof score !== 'number'){
