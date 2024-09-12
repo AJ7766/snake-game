@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { H1 } from "@northlight/ui";
 import { useUserListActions } from "../_actions/userListActions";
-import { InitialDataProps, UserObjectProps } from "../types/types";
+import { InitialDataProps } from "../types/types";
 import { useUserContext } from "../../context/UserContext";
 
 export default function UserList() {
