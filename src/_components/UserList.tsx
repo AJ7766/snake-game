@@ -3,7 +3,6 @@ import scores from "../scores";
 import users from "../users";
 import {
   Container,
-  HStack,
   ListItem,
   UnorderedList,
   VStack,
@@ -24,7 +23,7 @@ export default function UserList() {
     handleInitialData(initialDataProps);
   }, [users, scores]);
 
-  const handleScores = (userList: UserObjectProps[], name: string) => {
+  const handleScores = (name: string) => {
     const user = userList.find((user) => user.name === name);
     if (user) {
       setUserScoreList([
@@ -53,7 +52,7 @@ export default function UserList() {
           <Container key={index}>
             <ListItem
               cursor="pointer"
-              onClick={() => handleScores(userList, user.name)}
+              onClick={() => handleScores(user.name)}
             >
               <p style={{ display: "inline" }}>{user.name}&nbsp;-&nbsp;</p>
               {user.scores.length > 0 && (
