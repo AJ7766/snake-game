@@ -43,8 +43,7 @@ const convertExcelToUserObjects = (excelUsers: ExcelRow[]): UserObjectProps[] =>
     return convertedExcelList;
 };
 
-const mergeAndSortUserList = (mergedList: UserObjectProps[]): UserObjectProps[] => 
-    {
+const mergeAndSortUserList = (mergedList: UserObjectProps[]): UserObjectProps[] => {
     const currentUserList = new Map<string, UserObjectProps>();
 
     mergedList.forEach(user => {
