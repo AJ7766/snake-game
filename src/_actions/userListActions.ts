@@ -24,13 +24,19 @@ const convertExcelToUserObjects = (excelUsers: ExcelRow[]): Map<string, UserObje
     const convertedExcelList = new Map<string, UserObjectProps>();
 
     excelUsers.forEach((user) => {
-        const newUser: UserObjectProps = {
-            name: user.name,
-            scores: [user.score]
-        };
-        convertedExcelList.set(user.name, newUser);
+        if (convertedExcelList.has(user.name)) {
+            const existingUser = convertedExcelList.get(user.name);
+            if (existingUser) {
+                existingUser.scores.push(user.score);
+            }
+        } else {
+            const newUser: UserObjectProps = {
+                name: user.name,
+                scores: [user.score]
+            };
+            convertedExcelList.set(user.name, newUser);
+        }
     });
-
     return convertedExcelList;
 };
 
